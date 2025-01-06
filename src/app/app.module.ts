@@ -5,11 +5,15 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
 import {FormsModule} from '@angular/forms';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { jwtInterceptorInterceptor } from './Interceptor/jwt-interceptor.interceptor';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent
+    LoginComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
@@ -20,7 +24,10 @@ import {FormsModule} from '@angular/forms';
   //   FormsModule
   // ],
   providers: [
-    provideClientHydration()
+    provideClientHydration(),
+    provideHttpClient(
+      withInterceptors([jwtInterceptorInterceptor])
+    )
   ],
   bootstrap: [AppComponent]
 })
