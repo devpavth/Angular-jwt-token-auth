@@ -1,0 +1,781 @@
+<section class="h-screen overflow-x-auto bg-black bg-opacity-50">
+    <div class="flex">
+      <div class="w-1/2"></div>
+      <div class="animate-slide-in-right w-3/4 border bg-white shadow-xl">
+        <div class="flex items-center justify-between border bg-purple-50">
+          <div class="m-4">
+            <button (click)="closeVendor.emit(false)">
+              <svg
+                class="h-8 w-8 rounded-lg bg-gray-100 p-1 text-gray-600 transition-all duration-500 hover:bg-red-600 hover:text-white dark:text-white"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  class=""
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M6 18 17.94 6M18 18 6.06 6"
+                />
+              </svg>
+            </button>
+          </div>
+          <div class="mr-4">
+            <h1 class="text-xl font-semibold text-purple-800">View Transaction</h1>
+          </div>
+        </div>
+  
+        <!-- form f -->
+  
+        <form [formGroup]="TransactionForm" class="p-8">
+          <!-- ddddd -->
+          <div class="p-4 md:px-10 md:pb-2 md:pt-6">
+            <div class="mb-6 grid gap-6 md:grid-cols-6">
+              <div class="col-span-3">
+                <label
+                  for="first_name"
+                  class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                  >Transaction Code</label
+                >
+                <input
+                  type="text"
+                  formControlName="prdtrnsCode"
+                  class="input-form"
+                  required
+                />
+                <!-- <small
+                  *ngIf="
+                    TransactionForm?.get('vendorName')?.invalid &&
+                    TransactionForm?.get('vendorName')?.touched
+                  "
+                  class="text-danger text-red-600"
+                >
+                  Vendor Name Should not be Empty!
+                </small> -->
+              </div>
+              
+              <div class="col-span-3">
+                <label
+                  for="last_name"
+                  class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                  >Reference No</label
+                >
+                <input
+                  type="number"
+                  formControlName="tranRefNo"
+                  class="input-form"
+                  required
+                  [value]="transactionList?.tranRefNo"
+                />
+                <!-- <small
+                  *ngIf="
+                    TransactionForm?.get('vdrContactPersonName')?.invalid &&
+                    TransactionForm?.get('vdrContactPersonName')?.touched
+                  "
+                  class="text-danger text-red-600"
+                >
+                  Contact Person Name Should not be Empty!
+                </small> -->
+              </div>
+  
+              
+              <div class="col-span-3">
+                <label
+                  class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                  >Created By</label
+                >
+                <div class="relative">
+                  <input
+                    type="text"
+                    formControlName="tranUpdBy"
+                    class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                    [value]="transactionList?.tranUpdBy"
+                  />
+                    <!-- <option
+                      *ngFor="let branch of _BranchName"
+                      value="{{ branch.branchId }}"
+                    >
+                      {{ branch.branchName }}
+                    </option> -->
+                </div>
+              </div>
+
+              <div class="col-span-3">
+                <label
+                  class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                  >Date</label
+                >
+                  <input
+                    type="date"
+                    class="input-form"
+                    formControlName="tranUpdOn"
+                    required
+                    [value]="transactionList?.tranUpdOn | date:'yyyy-MM-dd'"
+                  />
+              </div>
+            </div>
+  
+            <div class="col-span-full mb-3 flex justify-between">
+              <h1 class="text-xl font-semibold text-purple-800">
+                Branch Details
+              </h1>
+            </div>
+
+            <form [formGroup]="TransactionForm">
+    
+              <div class="mb-6 grid gap-6 md:grid-cols-2"
+                formGroupName="branchDto">
+                <div
+                class="col-span-3">
+                  <label
+                    for="Country"
+                    class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                    >Branch Name</label
+                  >
+                  <input
+                    type="text"
+                    formControlName="branchName"
+                    class="input-form"
+                    required
+                    readonly
+                    [value]="transactionList?.branchDto.branchName"
+                  />
+                </div>
+                <div class="col-span-3">
+                  <label
+                    for="State"
+                    class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                    >GST Number</label
+                  >
+                  <input
+                    type="text"
+                    formControlName="gstNumber"
+                    class="input-form"
+                    required
+                    readonly
+                    [value]="transactionList?.branchDto.gstNumber"
+                  />
+                </div>
+    
+                <div class="col-span-3">
+                  <label
+                    for="city"
+                    class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                    >Manager</label
+                  >
+                  <input
+                    type="text"
+                    formControlName="manager"
+                    class="input-form"
+                    appFirstCapLetter
+                    required
+                    [value]="transactionList?.branchDto.manager"
+                  />
+    
+             
+                </div>
+                <div class="col-span-3">
+                  <label
+                    for="Pincode"
+                    class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                    >Branch Mobile Number</label
+                  >
+                  <input
+                    type="number"
+                    formControlName="branchMobilenumber"
+                    class="input-form"
+                    required
+                    [value]="transactionList?.branchDto.branchMobilenumber"
+                  />
+    
+                  
+                </div>
+
+                <div class="mb-2 col-span-6">
+                  <label
+                    for="Address"
+                    class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                    >Address</label
+                  >
+      
+                  <input
+                    type="text"
+                    class="input-form"
+                    formControlName="add1"
+                    autocomplete="street-address"
+                    placeholder="Flat, House no., Building, Company, Apartment"
+                    required
+                    [value]="transactionList?.branchDto.add1"
+                  />
+   
+                </div>
+                <div class="mb-2 col-span-6">
+                  <input
+                    type="text"
+                    formControlName="add2"
+                    autocomplete="street-address-level2"
+                    class="input-form"
+                    placeholder="Area, Street, Sector, Village"
+                    required
+                    [value]="transactionList?.branchDto.add2"
+                  />
+    
+                </div>
+
+                <div class="col-span-3">
+                  <label
+                    for="State"
+                    class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                    >City</label
+                  >
+                  <input
+                    type="text"
+                    formControlName="city"
+                    class="input-form"
+                    required
+                    readonly
+                    [value]="transactionList?.branchDto.city"
+                  />
+
+                </div>
+
+                <div class="col-span-3">
+                  <label
+                    for="State"
+                    class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                    >State</label
+                  >
+                  <input
+                    type="text"
+                    formControlName="state"
+                    class="input-form"
+                    required
+                    readonly
+                    [value]="transactionList?.branchDto.state"
+                  />
+
+                </div>
+
+                <div class="col-span-3">
+                  <label
+                    class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                    >Pincode</label
+                  >
+                  <input
+                    type="text"
+                    formControlName="pinCode"
+                    class="input-form"
+                    required
+                    readonly
+                    [value]="transactionList?.branchDto?.pinCode"
+                  />
+
+                </div>
+
+              </div>
+            </form>
+
+            
+            <div class="col-span-full mb-3 flex justify-between">
+              <h1 class="text-xl font-semibold text-purple-800">
+                Vendor Details From Branch
+              </h1>
+            </div>
+
+            <form [formGroup]="TransactionForm">
+
+              <div class="mb-6 grid gap-6 md:grid-cols-2"
+                formGroupName="vendorDto">
+                <div
+                 class="col-span-3">
+                  <label
+                    for="city"
+                    class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                    >Branch Name</label
+                  >
+                  <input
+                    type="text"
+                    formControlName="branchName"
+                    class="input-form"
+                    appFirstCapLetter
+                    required
+                    [value]="transactionList?.vendorDto?.branchName"
+                  />
+                </div>
+                <div class="col-span-3">
+                  <label
+                    class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                    >GST Number</label
+                  >
+                  <input
+                    type="text"
+                    formControlName="gstNumber"
+                    class="input-form"
+                    required
+                    [value]="transactionList?.vendorDto?.gstNumber"
+                  />
+    
+                  <!-- <small
+                    *ngIf="
+                      TransactionForm?.get('vdrPanNo')?.invalid &&
+                      TransactionForm?.get('vdrPanNo')?.touched
+                    "
+                    class="text-danger text-red-600"
+                  >
+                    Invalid PAN Number!
+                  </small> -->
+                </div>
+                <div class="col-span-3">
+                  <label
+                    class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                    >Manager</label
+                  >
+                  <input
+                    type="text"
+                    formControlName="manager"
+                    class="input-form"
+                    appFirstCapLetter
+                    required
+                    [value]="transactionList?.vendorDto?.manager"
+                  />
+                </div>
+                <div class="col-span-3">
+                  <label
+                    class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                    >Mobile Number</label
+                  >
+                  <input
+                    type="text"
+                    formControlName="branchMobilenumber"
+                    class="input-form"
+                    required
+                    [value]="transactionList?.vendorDto?.branchMobilenumber"
+                  />
+                </div>
+
+                <div class="mb-2 col-span-6">
+                  <label
+                    for="Address"
+                    class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                    >Address</label
+                  >
+      
+                  <input
+                    type="text"
+                    class="input-form"
+                    formControlName="add1"
+                    autocomplete="street-address"
+                    placeholder="Flat, House no., Building, Company, Apartment"
+                    required
+                    [value]="transactionList?.vendorDto?.add1"
+                  />
+                  <!-- <small
+                    *ngIf="
+                      TransactionForm?.get('vdrAdd1')?.invalid &&
+                      TransactionForm?.get('vdrAdd1')?.touched
+                    "
+                    class="text-danger text-red-600"
+                  >
+                    Address Should be atleast 10 characters!
+                  </small> -->
+                </div>
+                <div class="mb-2 col-span-6">
+                  <input
+                    type="text"
+                    formControlName="add2"
+                    autocomplete="street-address-level2"
+                    class="input-form"
+                    placeholder="Area, Street, Sector, Village"
+                    required
+                    [value]="transactionList?.vendorDto?.add2"
+                  />
+                  <!-- <small
+                    *ngIf="
+                      TransactionForm?.get('vdrAdd2')?.invalid &&
+                      TransactionForm?.get('vdrAdd2')?.touched
+                    "
+                    class="text-danger text-red-600"
+                  >
+                    Address line 2 Should be empty !
+                  </small> -->
+                </div>
+
+                <div class="col-span-3">
+                  <label
+                    for="State"
+                    class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                    >City</label
+                  >
+                  <input
+                    type="text"
+                    formControlName="city"
+                    class="input-form"
+                    required
+                    readonly
+                    [value]="transactionList?.vendorDto?.city"
+                  />
+
+                </div>
+
+                <div class="col-span-3">
+                  <label
+                    for="State"
+                    class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                    >State</label
+                  >
+                  <input
+                    type="text"
+                    formControlName="state"
+                    class="input-form"
+                    required
+                    readonly
+                    [value]="transactionList?.vendorDto?.state"
+                  />
+
+                </div>
+
+                <div class="col-span-3">
+                  <label
+                    class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                    >Pincode</label
+                  >
+                  <input
+                    type="text"
+                    formControlName="pinCode"
+                    class="input-form"
+                    required
+                    readonly
+                    [value]="transactionList?.vendorDto?.pinCode"
+                  />
+
+                </div>
+              </div>
+            </form>
+             
+            
+            <div class="col-span-full mb-3 flex justify-between">
+              <h1 class="text-xl font-semibold text-purple-800">Product Details</h1>
+            </div>
+
+            <form [formGroup]="TransactionForm">
+  
+              <div
+                formArrayName="transPrdDetails"
+                class="flex flex-wrap gap-4"
+                >
+                <div
+                  *ngFor="let trans of transactionDetails.controls; let i = index"
+                  class="w-full"
+                  >
+
+                  <div [formGroupName]="i" class="gap-4 grid grid-cols-6">
+
+                    <div class="mb-6 grid gap-8 md:grid-cols-6"
+                      formGroupName="transProductData">
+                      <div
+                        class="col-span-6">
+                        <label
+                          for="prdgrpName"
+                          class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                          >Group Name</label
+                        >
+                        <input
+                          type="text"
+                          formControlName="prdgrpName"
+                          class="input-form"
+                          appFirstCapLetter
+                          required
+                          [value]="transactionList?.transPrdDetails?.[0]?.transProductData?.prdgrpName"
+                        />
+                      </div>
+                      <div class="col-span-6">
+                        <label
+                          class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                          >Modal Name</label
+                        >
+                        <input
+                          type="text"
+                          formControlName="prdmdlName"
+                          class="input-form"
+                          required
+                          [value]="transactionList?.transPrdDetails?.[0]?.transProductData?.prdmdlName"
+                        />
+          
+                        <!-- <small
+                          *ngIf="
+                            TransactionForm?.get('vdrPanNo')?.invalid &&
+                            TransactionForm?.get('vdrPanNo')?.touched
+                          "
+                          class="text-danger text-red-600"
+                        >
+                          Invalid PAN Number!
+                        </small> -->
+                      </div>
+                      <div class="col-span-6">
+                        <label
+                          class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                          >Brand Name</label
+                        >
+                        <input
+                          type="text"
+                          formControlName="prdbrndName"
+                          class="input-form"
+                          appFirstCapLetter
+                          required
+                          [value]="transactionList?.transPrdDetails?.[0]?.transProductData?.prdbrndName"
+                        />
+                      </div>
+                      
+      
+                      
+      
+      
+                      <div class="col-span-6">
+                        <label
+                          for="prdCode"
+                          class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                          >Product Code</label
+                        >
+                        <input
+                          type="text"
+                          formControlName="prdCode"
+                          class="input-form"
+                          required
+                          readonly
+                          [value]="transactionList?.transPrdDetails?.[0]?.transProductData?.prdCode"
+                        />
+      
+                      </div>
+      
+                      <div class="col-span-6">
+                        <label
+                          for="prdHsnCode"
+                          class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                          >HSN Code</label
+                        >
+                        <input
+                          type="text"
+                          formControlName="prdHsnCode"
+                          class="input-form"
+                          required
+                          readonly
+                          [value]="transactionList?.transPrdDetails?.[0]?.transProductData?.prdHsnCode"
+                        />
+      
+                      </div>
+      
+                      <div class="col-span-12">
+                        <label
+                          class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                          >Head of Account</label
+                        >
+                        <input
+                          type="text"
+                          formControlName="headOfAccName"
+                          class="input-form"
+                          required
+                          readonly
+                          [value]="transactionList?.transPrdDetails?.[0]?.transProductData?.headOfAccName"
+                        />
+      
+                      </div>
+                      <div class="col-span-12">
+                        <label
+                          class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                          >Description</label
+                        >
+                        <textarea
+                          type="text"
+                          formControlName="prdDescription"
+                          class="input-form"
+                          required
+                          readonly
+                          [value]="transactionList?.transPrdDetails?.[0]?.transProductData?.prdDescription"
+                        ></textarea>
+      
+                      </div>
+                    </div>
+
+
+                  
+                    <div class="col-span-6">
+                      <label
+                        for="prdUnit"
+                        class="block text-sm mb-2 font-medium text-gray-900 dark:text-white"
+                        >Unit</label
+                      >
+                      <input
+                        type="number"
+                        formControlName="prdUnit"
+                        class="input-form"
+                        required
+                        [value]="transactionList?.transPrdDetails?.[0]?.prdUnit"
+                      />
+                    </div>
+                    <div class="col-span-3">
+                      <label
+                        for="prdQty"
+                        class="block text-sm mb-2 font-medium text-gray-900 dark:text-white"
+                        >Quantity</label
+                      >
+                      <input
+                        type="number"
+                        formControlName="prdQty"
+                        class="input-form"
+                        required
+                        [value]="transactionList?.transPrdDetails?.[0]?.prdQty"
+                      />
+                    </div>
+
+                    <div class="col-span-3">
+                      <label
+                        for="gstPercentage"
+                        class="block text-sm mb-2 font-medium text-gray-900 dark:text-white"
+                        >GST</label
+                      >
+                      <input
+                        type="number"
+                        formControlName="gstPercentage"
+                        class="input-form"
+                        required
+                        [value]="transactionList?.transPrdDetails?.[0]?.gstPercentage"
+                      />
+                    </div>
+
+                    <div class="col-span-3">
+                      <label
+                        for="purchasedPrice"
+                        class="block text-sm mb-2 font-medium text-gray-900 dark:text-white"
+                        >Price</label
+                      >
+                      <input
+                        type="number"
+                        formControlName="purchasedPrice"
+                        class="input-form"
+                        required
+                        [value]="transactionList?.transPrdDetails?.[0]?.purchasedPrice"
+                      />
+                    </div>
+
+                    <div class="col-span-3">
+                      <label
+                        for="itemTotalPrice"
+                        class="block text-sm mb-2 font-medium text-gray-900 dark:text-white"
+                        >Item Total Price</label
+                      >
+                      <input
+                        type="number"
+                        formControlName="itemTotalPrice"
+                        class="input-form"
+                        required
+                        [value]="transactionList?.transPrdDetails?.[0]?.itemTotalPrice"
+                      />
+                    </div>
+
+                    <div class="col-span-3">
+                      <label
+                        for="totalPieces"
+                        class="block text-sm mb-2 font-medium text-gray-900 dark:text-white"
+                        >Total Pieces</label
+                      >
+                      <input
+                        type="number"
+                        formControlName="totalPieces"
+                        class="input-form"
+                        required
+                        [value]="transactionList?.transPrdDetails?.[0]?.totalPieces"
+                      />
+                    </div>
+                    
+                    <div class="col-span-3">
+                      <label
+                        class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                        >Total Price</label
+                      >
+                        <input
+                          type="number"
+                          class="input-form"
+                          formControlName="totalPrice"
+                          required
+                          [value]="transactionList?.totalPrice"
+                        />
+                    </div>
+                  </div>
+                </div>
+          
+                
+              </div>
+            </form>
+          </div>
+          <div class="mt-8 flex justify-end gap-4">
+            <!-- <div *ngIf="isEdit">
+              <button
+                type="submit"
+                (click)="edit()"
+                class="inline-flex items-center rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white transition-all duration-500 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              >
+                <svg
+                  class="mr-1 h-5 w-5 text-white"
+                  fill="currentColor"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="m14.304 4.844 2.852 2.852M7 7H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-4.5m2.409-9.91a2.017 2.017 0 0 1 0 2.853l-6.844 6.844L8 14l.713-3.565 6.844-6.844a2.015 2.015 0 0 1 2.852 0Z"
+                  />
+                </svg>
+  
+                Edit
+              </button>
+            </div> -->
+            <div *ngIf="isSave">
+              <button
+                [disabled]="TransactionForm.invalid"
+                (click)="acceptTransactionDetails(TransactionForm.get('prdtrnsCode')?.value)"
+                type="submit"
+                class="me-2 rounded-lg bg-green-600 px-5 py-2.5 text-sm font-medium text-white transition-all duration-500 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-600 dark:focus:ring-green-800"
+              >
+                <svg
+                  *ngIf="isSaveIcon"
+                  class="mr-1 inline-flex h-5 w-5 items-center justify-center text-white"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M8.5 11.5 11 14l4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                  />
+                </svg>
+  
+                Accept
+              </button>
+            </div>
+  
+            
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  

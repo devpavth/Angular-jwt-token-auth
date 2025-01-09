@@ -8,17 +8,21 @@ import {FormsModule} from '@angular/forms';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { jwtInterceptorInterceptor } from './Interceptor/jwt-interceptor.interceptor';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { ReactiveformStructureComponent } from './components/structure/reactiveform-structure/reactiveform-structure.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    DashboardComponent
+    DashboardComponent,
+    ReactiveformStructureComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   // exports: [
   //   FormsModule
